@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Доска объявлений: автозапчасти (KZ) — план</title>
+  <style>
+    :root {
+      --bg: #f6f5f2;
+      --surface: #ffffff;
+      --text: #1a1a1a;
+      --muted: #5c5c5c;
+      --line: #e2e0db;
+      --accent: #0b5fff;
+      --ok: #0f7b4a;
+      --warn: #9a6b00;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    .wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 20px 64px;
+    }
+    h1 { font-size: 1.75rem; margin: 0 0 8px; letter-spacing: -0.02em; }
+    h2 { font-size: 1.25rem; margin: 40px 0 12px; }
+    h3 { font-size: 1.05rem; margin: 24px 0 8px; }
+    p { margin: 0 0 12px; }
+    .muted { color: var(--muted); }
+    .pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 24px; }
+    .pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      font-size: 0.85rem;
+    }
+    .pill.info { border-color: #b8d0ff; color: #0b5fff; background: #eef4ff; }
+    .pill.ok { border-color: #b7e0cb; color: var(--ok); background: #eef8f2; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 16px 0 24px;
+    }
+    @media (max-width: 720px) {
+      .stats { grid-template-columns: 1fr 1fr; }
+    }
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .stat b { display: block; font-size: 1.15rem; margin-bottom: 4px; }
+    .stat span { color: var(--muted); font-size: 0.85rem; }
+    .stat.warn b { color: var(--warn); }
+    .stat.ok b { color: var(--ok); }
+    .callout {
+      background: #eef4ff;
+      border: 1px solid #c9dbff;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin: 16px 0;
+      font-size: 0.95rem;
+    }
+    .callout.neutral {
+      background: #f0efec;
+      border-color: var(--line);
+    }
+    .callout.ok {
+      background: #eef8f2;
+      border-color: #b7e0cb;
+    }
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    @media (max-width: 720px) {
+      .grid2 { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .card h3 { margin-top: 0; }
+    .scene {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin: 10px 0;
+    }
+    .scene .t {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+    .scene .t strong { font-size: 1rem; }
+    .scene .t em {
+      font-style: normal;
+      font-size: 0.8rem;
+      color: var(--muted);
+      white-space: nowrap;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 2px 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+      font-size: 0.92rem;
+      margin: 12px 0 20px;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th { background: #f0efec; font-weight: 600; }
+    tr:last-child td { border-bottom: none; }
+    .bars { margin: 16px 0 8px; }
+    .bar-row { display: grid; grid-template-columns: 160px 1fr 90px; gap: 10px; align-items: center; margin: 8px 0; font-size: 0.85rem; }
+    @media (max-width: 720px) {
+      .bar-row { grid-template-columns: 1fr; gap: 4px; }
+    }
+    .bar-track {
+      height: 10px;
+      background: #ebe9e4;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 999px;
+    }
+    .total-box {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      border-radius: 10px;
+      padding: 18px;
+      margin-top: 12px;
+    }
+    .total-box .sum {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 4px 0 8px;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Доска объявлений: автозапчасти (KZ)</h1>
+    <p class="muted">Понимание задачи · сценарий «как на видео» · план разработки с трудозатратами в тенге</p>
+    <div class="pills">
+      <span class="pill info">MVP: автозапчасти</span>
+      <span class="pill">Потом: другие блоки</span>
+      <span class="pill ok">Казахстан</span>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>7 320 000 ₸</b><span>Разработка (оценка)</span></div>
+      <div class="stat"><b>600 ч</b><span>Трудозатраты</span></div>
+      <div class="stat warn"><b>1 098 000 ₸</b><span>Запас 15%</span></div>
+      <div class="stat ok"><b>≈ 9 018 000 ₸</b><span>Итого с инфрой/год</span></div>
+    </div>
+
+    <div class="callout">
+      <strong>Ставка для расчёта.</strong>
+      Middle fullstack ≈ 12 000 ₸/час · senior ≈ 18 000 ₸/час · дизайн ≈ 10 000 ₸/час.
+      Ориентир по рынку Казахстана для небольшой команды / подрядчика, не жёсткий прайс.
+    </div>
+
+    <h2>1. Что понял</h2>
+    <p>
+      Вы с братом Серёгой и его другом Мансуром хотите сделать портал вроде доски объявлений,
+      но не «просто куплю/продам», а <strong>заявка клиента → отработка поставщиками</strong>.
+      Сейчас фокус — <strong>автозапчасти</strong>. Позже те же механики можно открыть для других
+      блоков (например, комплектующие ПК).
+    </p>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>Клиент</h3>
+        <p>Заходит, описывает нужную запчасть своими словами. Может добавить VIN, артикул, штрихкод и фото.</p>
+        <p>Сайт по описанию <strong>предлагает категорию</strong> (не заставляет угадывать справочник).</p>
+        <p>Если данных мало — мягко подсказывает: «с VIN / артикулом поставщики ответят точнее и быстрее».</p>
+      </div>
+      <div class="card">
+        <h3>Поставщик</h3>
+        <p>Заходит в кабинет, видит подходящие заявки, откликается, ведёт переписку / сделку.</p>
+        <p>После успешной сделки — <strong>рейтинг и комментарий</strong> о поставщике.</p>
+        <p>Может прикладывать фото к предложениям / товарам.</p>
+      </div>
+    </div>
+
+    <div class="callout neutral">
+      <strong>Что пока не заложено в MVP:</strong>
+      полноценный маркетплейс с оплатой на сайте, доставка, складской учёт 1С, мобильное приложение.
+      Это можно добавить после того, как пойдёт поток заявок и откликов.
+    </div>
+
+    <h2>2. План «человеческим языком» (как сценарий ролика)</h2>
+    <p class="muted">Можно читать вслух Серёге и Мансуру за 3–4 минуты.</p>
+
+    <div class="scene">
+      <div class="t"><strong>Зачем мы это делаем</strong><em>0:00</em></div>
+      <p class="muted" style="margin:0">В Казахстане человек часто знает, что «нужна деталь на машину», но не знает точный артикул. Поставщики есть, но искать по чатам долго. Мы делаем место, где клиент пишет запрос один раз, а поставщики сами приходят с ответом.</p>
+    </div>
+    <div class="scene">
+      <div class="t"><strong>Первый экран — автозапчасти</strong><em>0:40</em></div>
+      <p class="muted" style="margin:0">Клиент открывает сайт и сразу попадает в блок «Автозапчасти». Большая форма: «Что нужно?» — свободный текст. Рядом поля VIN, артикул, штрихкод — необязательные, но помечены как «лучше указать». Пока пишет — сайт предлагает категорию. Можно поправить вручную.</p>
+    </div>
+    <div class="scene">
+      <div class="t"><strong>Фото и заявка ушла</strong><em>1:20</em></div>
+      <p class="muted" style="margin:0">Клиент загружает фото, оставляет телефон / Telegram, нажимает «Разместить». Заявка появляется в ленте поставщиков. Клиент видит статус: «ожидает откликов», «есть предложения», «сделка закрыта».</p>
+    </div>
+    <div class="scene">
+      <div class="t"><strong>Работа поставщика</strong><em>2:00</em></div>
+      <p class="muted" style="margin:0">Поставщик регистрируется, подтверждает профиль. В кабинете — фильтр по категориям и региону. На заявку отвечает ценой, сроком и фото товара. Клиент выбирает, с кем идёт дальше. Когда оба подтверждают успех — сделка засчитывается.</p>
+    </div>
+    <div class="scene">
+      <div class="t"><strong>Рейтинг и доверие</strong><em>2:40</em></div>
+      <p class="muted" style="margin:0">После сделки клиент ставит оценку и пишет короткий комментарий. У поставщика растёт рейтинг и число успешных сделок. Плохие отзывы модерируются.</p>
+    </div>
+    <div class="scene">
+      <div class="t"><strong>Что дальше</strong><em>3:10</em></div>
+      <p class="muted" style="margin:0">Когда автозапчасти заработают, тем же каркасом открываем второй блок — например «Комплектующие для ПК». Не новый сайт, а новые разделы на одной платформе.</p>
+    </div>
+
+    <h2>3. Роли и экраны MVP</h2>
+    <table>
+      <thead><tr><th>Роль</th><th>Что умеет на старте</th></tr></thead>
+      <tbody>
+        <tr><td>Гость / клиент</td><td>Создать заявку, фото, VIN/артикул, видеть отклики, закрыть сделку, оставить отзыв</td></tr>
+        <tr><td>Поставщик</td><td>Профиль, лента заявок, отклик с ценой и фото, переписка, история сделок, рейтинг</td></tr>
+        <tr><td>Админ</td><td>Категории, модерация объявлений и отзывов, блокировка, базовая статистика</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Подсказка «укажите больше данных»</h3>
+    <p>На форме заявки — прогресс полноты: текст → +фото → +VIN → +артикул. Чем полнее, тем выше шанс быстрого точного ответа. Без жёсткой блокировки: можно отправить и с одним описанием.</p>
+
+    <h2>4. План разработки и деньги</h2>
+    <p class="muted">Срок ориентировочно 2,5–3,5 месяца при 1 middle fullstack + дизайн part-time.</p>
+
+    <div class="bars" id="bars"></div>
+    <p class="muted" style="font-size:0.8rem">Стоимость этапов, тыс. ₸ · ставка middle/senior KZ</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Этап</th><th>Кто</th><th>Часы</th><th>Ставка</th><th>Сумма</th><th>Содержание</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+
+    <div class="grid2">
+      <div class="card"><h3>Чистая разработка</h3><p><strong>7 320 000 ₸</strong></p><p class="muted">600 часов по этапам</p></div>
+      <div class="card"><h3>Запас на риски 15%</h3><p><strong>1 098 000 ₸</strong></p><p class="muted">Правки ТЗ, интеграции, сюрпризы VIN/ИИ</p></div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <h3>Инфра на 1 год</h3>
+      <p><strong>600 000 ₸</strong></p>
+      <p class="muted">VPS, домен .kz, SSL, бэкапы, почта, хранилище фото</p>
+    </div>
+
+    <div class="total-box">
+      <div class="muted">Итого к запуску MVP (ориентир)</div>
+      <div class="sum">≈ 9 018 000 ₸</div>
+      <p style="margin:0">Диапазон «в жизнь»: примерно <strong>7,7–11,3 млн ₸</strong>, если меняется объём чата, ИИ или уведомлений.</p>
+    </div>
+
+    <h2>5. Этапы по времени</h2>
+    <table>
+      <thead><tr><th>Недели</th><th>Результат</th></tr></thead>
+      <tbody>
+        <tr><td>1–2</td><td>Прототип и дизайн ключевых экранов</td></tr>
+        <tr><td>3–6</td><td>Работает публикация заявок + кабинеты + фото</td></tr>
+        <tr><td>7–9</td><td>Отклики, сделки, рейтинг, подсказки полноты данных</td></tr>
+        <tr><td>10–11</td><td>Категоризация по описанию, полировка, тест с реальными поставщиками</td></tr>
+        <tr><td>12</td><td>Запуск на домене, обучение Серёги/Мансура, поддержка старта</td></tr>
+      </tbody>
+    </table>
+
+    <h2>6. Что решить до старта работ</h2>
+    <table>
+      <thead><tr><th>Вопрос</th><th>Зачем</th></tr></thead>
+      <tbody>
+        <tr><td>Кто владелец продукта и домена?</td><td>Юрлицо / ИП, договор, доступ к хостингу</td></tr>
+        <tr><td>Монетизация с дня 1 или позже?</td><td>Бесплатный запуск vs платные отклики / подписка поставщика</td></tr>
+        <tr><td>Только KZ или сразу СНГ?</td><td>Язык (RU/KK), валюта, регионы доставки</td></tr>
+        <tr><td>Чат внутри сайта или WhatsApp/Telegram?</td><td>Сильно влияет на сроки и удержание на платформе</td></tr>
+        <tr><td>Нужна ли проверка поставщиков (ИИН/БИН)?</td><td>Доверие vs скорость набора базы</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout ok">
+      <strong>Следующий шаг.</strong>
+      Зафиксировать короткое ТЗ MVP (1–2 страницы) и выбрать стек под хостинг.
+      Разработку лучше начинать с прототипа формы заявки и кабинета поставщика — это ядро продукта.
+    </div>
+
+    <footer>
+      Репозиторий: <a href="https://github.com/sania2007mav/parts-board-plan-kz">github.com/sania2007mav/parts-board-plan-kz</a>
+      · Текст плана также в README.md
+    </footer>
+  </div>
+
+  <script>
+    const RATE_MID = 12000, RATE_SENIOR = 18000, RATE_DESIGN = 10000, RATE_PM = 9000;
+    const lines = [
+      ["1. Продукт и прототип", "PM + дизайн", 40, RATE_PM, "Сценарии, wireframes, тексты, структура блоков"],
+      ["2. Дизайн UI", "Дизайнер", 48, RATE_DESIGN, "Мобильный + десктоп, кабинет клиента и поставщика"],
+      ["3. Ядро платформы", "Middle fullstack", 120, RATE_MID, "Регистрация, роли, объявления, поиск, админка"],
+      ["4. Автозапчасти MVP", "Middle fullstack", 80, RATE_MID, "VIN / артикул / штрихкод, подсказки «укажите больше данных»"],
+      ["5. Категоризация по тексту", "Middle + senior", 56, RATE_SENIOR, "Правила + ИИ-подсказка категории по описанию"],
+      ["6. Кабинет поставщика", "Middle fullstack", 72, RATE_MID, "Лента заявок, отклики, чат/переписка, статусы"],
+      ["7. Сделки, рейтинг, отзывы", "Middle fullstack", 64, RATE_MID, "Успешная сделка, оценка, комментарий, модерация"],
+      ["8. Фото и хранилище", "Middle fullstack", 32, RATE_MID, "Загрузка, сжатие, лимиты, хранилище"],
+      ["9. Уведомления", "Middle fullstack", 40, RATE_MID, "Email + Telegram/WhatsApp (опционально)"],
+      ["10. Тесты, деплой, запуск KZ", "Middle + PM", 48, RATE_MID, "Хостинг, домен .kz, SSL, бэкапы, чек-лист запуска"],
+    ];
+    const money = (n) => new Intl.NumberFormat("ru-KZ").format(n) + " ₸";
+    const costs = lines.map((l) => l[2] * l[3]);
+    const max = Math.max(...costs);
+    const bars = document.getElementById("bars");
+    const rows = document.getElementById("rows");
+    lines.forEach((l, i) => {
+      const cost = costs[i];
+      const short = l[0].replace(/^\d+\.\s*/, "").slice(0, 22);
+      const row = document.createElement("div");
+      row.className = "bar-row";
+      row.innerHTML = `<div>${short}</div><div class="bar-track"><div class="bar-fill" style="width:${(cost/max)*100}%"></div></div><div>${Math.round(cost/1000)} тыс.</div>`;
+      bars.appendChild(row);
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${l[0]}</td><td>${l[1]}</td><td>${l[2]}</td><td>${money(l[3])}</td><td>${money(cost)}</td><td>${l[4]}</td>`;
+      rows.appendChild(tr);
+    });
+  </script>
+</body>
+</html>
